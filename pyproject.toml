@@ -29,12 +29,11 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 
-dependencies = [
-]
+dynamic = ["dependencies"]
 
 [project.optional-dependencies]
 dev = ["check-manifest"]
-test = ["coverage"]
+test = ["coverage", "pytest"]
 
 [project.urls]
 "Homepage" = "https://github.com/msaelices/py2mojo"
@@ -44,7 +43,8 @@ test = ["coverage"]
 [project.scripts]
 sample = "py2mojo:py2mojo.main:main"
 
-[tool.setuptools]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]
