@@ -8,10 +8,14 @@ def _validate(source: str, expected: str) -> None:
     assert annotated_source == expected
 
 
-def test_convert_integer():
+def test_convert_assignments():
     _validate(
         'x: int = 10',
         'var x: Int = 10',
+    )
+    _validate(
+        'x: float = 10.5',
+        'var x: Float64 = 10.5',
     )
     _validate(
         'x: str = "foo"',
