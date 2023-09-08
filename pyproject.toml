@@ -1,0 +1,51 @@
+[project]
+name = "py2mojo"
+
+version = "0.0.1"
+
+description = "Automated Python to Mojo code translation"
+
+readme = "README.md"
+
+requires-python = ">=3.10"
+
+license = {file = "LICENSE.txt"}
+
+keywords = ["mojo", "code", "development", "converter", "translator"]
+
+authors = [
+  {name = "Manuel Saelices", email = "msaelices@gmail.com" }
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "License :: OSI Approved :: MIT License",
+
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = ["check-manifest"]
+test = ["coverage"]
+
+[project.urls]
+"Homepage" = "https://github.com/msaelices/py2mojo"
+"Bug Reports" = "https://github.com/msaelices/py2mojo/issues"
+"Source" = "https://github.com/msaelices/py2mojo"
+
+[project.scripts]
+sample = "py2mojo:main"
+
+[tool.setuptools]
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
