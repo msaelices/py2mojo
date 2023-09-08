@@ -42,7 +42,7 @@ test = ["coverage"]
 "Source" = "https://github.com/msaelices/py2mojo"
 
 [project.scripts]
-sample = "py2mojo:main"
+sample = "py2mojo:py2mojo.main:main"
 
 [tool.setuptools]
 
