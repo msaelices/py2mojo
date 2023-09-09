@@ -9,6 +9,7 @@ def ast_to_offset(node: Union[ast.expr, ast.stmt]) -> Offset:
 
 
 def find_token(tokens: List[Token], i: int, src: str) -> int:
+    """Find the index of the token with the given src."""
     try:
         while tokens[i].src != src:
             i += 1
@@ -18,6 +19,7 @@ def find_token(tokens: List[Token], i: int, src: str) -> int:
 
 
 def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
+    """Find the index of the token with the given name."""
     try:
         while tokens[i].name != name:
             i += 1
@@ -27,6 +29,7 @@ def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
 
 
 def find_token_after_offset(tokens: List[Token], i: int, offset: int) -> int:
+    """Find the index of the token after the given offset."""
     try:
         while tokens[i].utf8_byte_offset < offset:
             i += 1
@@ -51,6 +54,7 @@ def fixup_dedent_tokens(tokens: List[Token]) -> None:
 
 
 def get_node_name(node: ast.AST) -> str:
+    """Returns the name of the given node."""
     if isinstance(node, ast.Name):
         return node.id
     if isinstance(node, ast.Constant):
@@ -64,6 +68,7 @@ def get_node_name(node: ast.AST) -> str:
 
 
 def get_next_node(node: ast.AST) -> ast.AST:
+    """Returns the next node of the given node."""
     if isinstance(node, ast.Attribute):
         return node.value
     elif isinstance(node, ast.Call):
@@ -73,6 +78,7 @@ def get_next_node(node: ast.AST) -> ast.AST:
 
 
 def get_dot_path(node: ast.Attribute):
+    """Returns the dot path of the given attribute node."""
     attr_list = []
     while isinstance(node, ast.Attribute) or isinstance(node, ast.Call):
         attr = get_node_name(node)
@@ -83,6 +89,7 @@ def get_dot_path(node: ast.Attribute):
 
 
 def get_annotation_type(node: ast.AST) -> str:
+    """Returns the type of the given annotation node."""
     match node.__class__.__name__:
         case 'Name':
             curr_type = node.id
@@ -94,6 +101,7 @@ def get_annotation_type(node: ast.AST) -> str:
 
 
 def get_mojo_type(curr_type: str) -> str:
+    """Returns the corresponding Mojo type for the given Python type."""
     try:
         return {
             'int': 'Int',

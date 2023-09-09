@@ -17,14 +17,16 @@ def _replace_assignment(tokens: List[Token], i: int, new_type: str) -> None:
 
 
 def convert_assignment(node: ast.AnnAssign) -> Iterable:
+    """Convert an assignment to a mojo assignment."""
     curr_type = get_annotation_type(node.annotation)
-    if curr_type not in ('int', 'float', 'List[int]', 'List[float]', 'list[int]', 'list[float]'):
+    new_type = get_mojo_type(curr_type)
+    if not new_type:
         return
 
     yield (
         ast_to_offset(node),
         partial(
             _replace_assignment,
-            new_type=get_mojo_type(curr_type),
+            new_type=new_type,
         ),
     )
