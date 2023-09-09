@@ -82,15 +82,6 @@ def get_dot_path(node: ast.Attribute):
     return reversed(attr_list)
 
 
-def replace_assignment(tokens: List[Token], i: int, curr_type: str, new_type: str) -> None:
-    tokens.insert(0, Token(name='NAME', src='var '))
-    ann_idx = find_token(tokens, i, ':')
-    type_idx = find_token_by_name(tokens, ann_idx, name='NAME')
-    end_type_idx = find_token(tokens, type_idx, '=')
-    del tokens[type_idx: end_type_idx - 1]
-    tokens.insert(type_idx, Token(name='NAME', src=new_type))
-
-
 def get_annotation_type(node: ast.AST) -> str:
     match node.__class__.__name__:
         case 'Name':
