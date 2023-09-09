@@ -10,7 +10,27 @@ A tool to automatically convert Python code to the new [Mojo programming languag
 pip install py2mojo
 ```
 
-## Approach
+## Usage
+
+You can read the usage by running `py2mojo`:
+
+```bash
+❯ py2mojo
+usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] filenames [filenames ...]
+py2mojo: error: the following arguments are required: filenames
+```
+
+Examples:
+
+```bash
+❯ py2mojo myfile.py
+```
+
+```bash
+❯ py2mojo mypackage/*.py
+```
+
+## Implementation details
 
 This uses a similar approach to the [pyupgrade](https://github.com/asottile/pyupgrade) tool, using the AST parser to analyze the Python code and replace some parts of it with the equivalent Mojo code.
 
