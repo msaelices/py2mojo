@@ -14,6 +14,14 @@ def test_assignment_with_basic_types():
         'x: str = "foo"',
         'var x: str = "foo"',
     )
+    validate(
+        'x: int',
+        'var x: Int',
+    )
+    validate(
+        '"""docstring"""\nx: int',
+        '"""docstring"""\nvar x: Int',
+    )
 
 
 def test_assignment_with_list_types():

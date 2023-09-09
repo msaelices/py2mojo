@@ -8,11 +8,14 @@ from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token
 
 
 def _replace_assignment(tokens: List[Token], i: int, new_type: str) -> None:
-    tokens.insert(0, Token(name='NAME', src='var '))
+    tokens.insert(i, Token(name='NAME', src='var '))
     ann_idx = find_token(tokens, i, ':')
     type_idx = find_token_by_name(tokens, ann_idx, name='NAME')
-    end_type_idx = find_token(tokens, type_idx, '=')
-    del tokens[type_idx: end_type_idx - 1]
+    assign_op_idx = find_token(tokens, type_idx, '=') - 1
+    newline_idx = find_token_by_name(tokens, type_idx, name='NEWLINE')
+    valid_idxs = (idx for idx in (assign_op_idx, newline_idx) if idx >= 0)
+    end_type_idx = min(valid_idxs)
+    del tokens[type_idx: end_type_idx]
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
