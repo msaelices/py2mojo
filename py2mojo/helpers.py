@@ -17,6 +17,15 @@ def find_token(tokens: List[Token], i: int, src: str) -> int:
     return i
 
 
+def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
+    try:
+        while tokens[i].name != name:
+            i += 1
+    except IndexError:
+        return -1
+    return i
+
+
 def fixup_dedent_tokens(tokens: List[Token]) -> None:
     # copied from pyupgrade
     """For whatever reason the DEDENT / UNIMPORTANT_WS tokens are misordered
@@ -66,5 +75,19 @@ def get_dot_path(node: ast.Attribute):
 
 def replace_assignment(tokens: List[Token], i: int, curr_type: str, new_type: str) -> None:
     tokens.insert(0, Token(name='NAME', src='var '))
-    j = find_token(tokens, i, curr_type)
-    tokens[j] = tokens[j]._replace(src=new_type)
+    ann_idx = find_token(tokens, i, ':')
+    type_idx = find_token_by_name(tokens, ann_idx, name='NAME')
+    end_type_idx = find_token(tokens, type_idx, '=')
+    del tokens[type_idx: end_type_idx - 1]
+    tokens.insert(type_idx, Token(name='NAME', src=new_type))
+
+
+def get_annotation_type(node: ast.AST) -> str:
+    match node.__class__.__name__:
+        case 'Name':
+            curr_type = node.id
+        case 'Subscript':
+            curr_type = f'{node.value.id}[{node.slice.id}]'
+        case _:
+            curr_type = ''
+    return curr_type

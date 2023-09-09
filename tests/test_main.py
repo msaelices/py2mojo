@@ -18,6 +18,10 @@ def test_convert_assignments():
         'var x: Float64 = 10.5',
     )
     _validate(
+        'x: List[int] = []',
+        'var x: List[Int] = []',
+    )
+    _validate(
         'x: str = "foo"',
         'x: str = "foo"',  # no changed
     )
