@@ -90,11 +90,16 @@ def get_dot_path(node: ast.Attribute):
 
 def get_annotation_type(node: ast.AST) -> str:
     """Returns the type of the given annotation node."""
+    
     match node.__class__.__name__:
         case 'Name':
             curr_type = node.id
         case 'Subscript':
-            curr_type = f'{node.value.id}[{node.slice.id}]'
+            try:
+                curr_type = f'{node.value.id}[{node.slice.id}]'
+            except:
+                breakpoint()
+                return ''
         case _:
             curr_type = ''
     return curr_type
