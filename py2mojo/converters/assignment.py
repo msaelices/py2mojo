@@ -4,7 +4,7 @@ from typing import Iterable, List
 
 from tokenize_rt import Token
 
-from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_by_name
+from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_by_name, get_mojo_type
 
 
 def _replace_assignment(tokens: List[Token], i: int, new_type: str) -> None:
@@ -20,20 +20,11 @@ def convert_assignment(node: ast.AnnAssign) -> Iterable:
     curr_type = get_annotation_type(node.annotation)
     if curr_type not in ('int', 'float', 'List[int]', 'List[float]', 'list[int]', 'list[float]'):
         return
-    
-    new_type = {
-        'int': 'Int',
-        'float': 'Float64',
-        'List[int]': 'List[Int]',
-        'List[float]': 'List[Float64]',
-        'list[int]': 'list[Int]',
-        'list[float]': 'list[Float64]',
-    }[curr_type]
 
     yield (
         ast_to_offset(node),
         partial(
             _replace_assignment,
-            new_type=new_type,
+            new_type=get_mojo_type(curr_type),
         ),
     )

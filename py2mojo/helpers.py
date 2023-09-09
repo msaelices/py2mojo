@@ -91,3 +91,17 @@ def get_annotation_type(node: ast.AST) -> str:
         case _:
             curr_type = ''
     return curr_type
+
+
+def get_mojo_type(curr_type: str) -> str:
+    try:
+        return {
+            'int': 'Int',
+            'float': 'Float64',
+            'List[int]': 'List[Int]',
+            'List[float]': 'List[Float64]',
+            'list[int]': 'list[Int]',
+            'list[float]': 'list[Float64]',
+        }[curr_type]
+    except KeyError:
+        return ''
