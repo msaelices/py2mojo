@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import os
 import sys
 import tokenize
 from collections import defaultdict
@@ -9,8 +10,8 @@ from typing import Callable, List, Sequence
 
 from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
-from .converters import convert_assignments
-from .helpers import fixup_dedent_tokens
+from converters import convert_assignments
+from helpers import fixup_dedent_tokens
 
 
 TokenFunc = Callable[[List[Token], int], None]
@@ -78,14 +79,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     print('Generating type annotations...')
 
     for filename in args.filenames:
+        mojo_filename = f'{os.path.splitext(filename)[0]}.mojo'
         with open(filename) as source_file:
             source = source_file.read()
 
             annotated_source = convert_to_mojo(source)
 
             if source != annotated_source:
-                print(f'Rewriting {filename}')
-                with open(filename, 'w', encoding='UTF-8', newline='') as out:
+                print(f'Rewriting {filename} into {mojo_filename}')
+                with open(mojo_filename, 'w', encoding='UTF-8', newline='') as out:
                     out.write(annotated_source)
             else:
                 print(f'File {filename} unchanged')
