@@ -2,7 +2,7 @@ import ast
 from functools import partial
 from typing import Iterable
 
-from helpers import ast_to_offset, get_annotation_type, replace_assignment
+from .helpers import ast_to_offset, get_annotation_type, replace_assignment
 
 
 def convert_assignments(node: ast.AnnAssign) -> Iterable:

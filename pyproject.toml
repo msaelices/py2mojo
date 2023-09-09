@@ -41,7 +41,7 @@ test = ["coverage", "pytest"]
 "Source" = "https://github.com/msaelices/py2mojo"
 
 [project.scripts]
-sample = "py2mojo:py2mojo.main:main"
+py2mojo = "py2mojo.main:main"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

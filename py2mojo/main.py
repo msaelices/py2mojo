@@ -10,8 +10,8 @@ from typing import Callable, List, Sequence
 
 from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
-from converters import convert_assignments
-from helpers import fixup_dedent_tokens
+from .converters import convert_assignments
+from .helpers import fixup_dedent_tokens
 
 
 TokenFunc = Callable[[List[Token], int], None]
