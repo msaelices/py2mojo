@@ -12,12 +12,19 @@ pip install py2mojo
 
 ## Usage
 
-You can read the usage by running `py2mojo`:
+You can read the usage by running `py2mojo --help`:
 
 ```bash
-❯ py2mojo
+❯ py2mojo --help
 usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] filenames [filenames ...]
-py2mojo: error: the following arguments are required: filenames
+
+positional arguments:
+  filenames
+
+options:
+  -h, --help            show this help message and exit
+  --inplace             Rewrite the file inplace
+  --extension {mojo,🔥}  File extension used for mojo file
 ```
 
 Examples:
