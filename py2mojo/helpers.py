@@ -1,4 +1,5 @@
 import ast
+import re
 from typing import List, Union
 
 from tokenize_rt import UNIMPORTANT_WS, Offset, Token
@@ -90,16 +91,11 @@ def get_dot_path(node: ast.Attribute):
 
 def get_annotation_type(node: ast.AST) -> str:
     """Returns the type of the given annotation node."""
-    
     match node.__class__.__name__:
         case 'Name':
             curr_type = node.id
         case 'Subscript':
-            try:
-                curr_type = f'{node.value.id}[{node.slice.id}]'
-            except:
-                breakpoint()
-                return ''
+            curr_type = f'{node.value.id}[{get_annotation_type(node.slice)}]'
         case _:
             curr_type = ''
     return curr_type
@@ -107,14 +103,16 @@ def get_annotation_type(node: ast.AST) -> str:
 
 def get_mojo_type(curr_type: str) -> str:
     """Returns the corresponding Mojo type for the given Python type."""
-    try:
-        return {
-            'int': 'Int',
-            'float': 'Float64',
-            'List[int]': 'List[Int]',
-            'List[float]': 'List[Float64]',
-            'list[int]': 'list[Int]',
-            'list[float]': 'list[Float64]',
-        }[curr_type]
-    except KeyError:
-        return ''
+    patterns = [
+        (re.compile(r'int'), 'Int'),
+        (re.compile(r'float'), 'Float64'),
+    ]
+
+    prev_type = ''
+
+    while prev_type != curr_type:
+        prev_type = curr_type
+        for pattern, replacement in patterns:
+            curr_type = pattern.sub(replacement, curr_type)
+
+    return curr_type

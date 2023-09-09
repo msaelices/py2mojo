@@ -26,6 +26,7 @@ def convert_functiondef(node: ast.FunctionDef) -> Iterable:
     for arg in node.args.args:
         curr_type = get_annotation_type(arg.annotation)
         new_type = get_mojo_type(curr_type)
+
         if not new_type:
             return
 

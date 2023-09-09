@@ -14,6 +14,10 @@ def test_functiondef_with_basic_types():
 
 def test_functiondef_with_list_types():
     validate(
+        'def flatten(l1: list[list[int]]) -> list[int]: ...',
+        'def flatten(l1: list[list[Int]]) -> list[Int]: ...',
+    )
+    validate(
         'def reverse(l: list[int]) -> list[int]: return reversed(l)',
         'def reverse(l: list[Int]) -> list[Int]: return reversed(l)',
     )

@@ -12,7 +12,7 @@ def test_assignment_with_basic_types():
     )
     validate(
         'x: str = "foo"',
-        'x: str = "foo"',  # not changed
+        'var x: str = "foo"',
     )
 
 
@@ -27,5 +27,5 @@ def test_assignment_with_list_types():
     )
     validate(
         'x: list = []',
-        'x: list = []',  # not changed
+        'var x: list = []',
     )
