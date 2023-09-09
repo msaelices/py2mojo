@@ -75,18 +75,25 @@ def convert_to_mojo(source: str) -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('filenames', nargs='+')
+    parser.add_argument(
+        '--inplace',
+        help='Rewrite the file inplace',
+        action='store_true',
+    )
     args = parser.parse_args(argv)
+
     print('Generating type annotations...')
+    
 
     for filename in args.filenames:
-        mojo_filename = f'{os.path.splitext(filename)[0]}.mojo'
+        mojo_filename = filename if args.inplace else f'{os.path.splitext(filename)[0]}.mojo'
         with open(filename) as source_file:
             source = source_file.read()
 
             annotated_source = convert_to_mojo(source)
 
             if source != annotated_source:
-                print(f'Rewriting {filename} into {mojo_filename}')
+                print(f'Rewriting {filename}' if args.inplace else f'Rewriting {filename} into {mojo_filename}')
                 with open(mojo_filename, 'w', encoding='UTF-8', newline='') as out:
                     out.write(annotated_source)
             else:
