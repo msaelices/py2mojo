@@ -8,7 +8,7 @@ from .helpers import ast_to_offset, get_annotation_type, replace_assignment
 
 def convert_assignments(node: ast.AnnAssign) -> Iterable:
     curr_type = get_annotation_type(node.annotation)
-    if curr_type not in ('int', 'float', 'List[int]', 'List[float]'):
+    if curr_type not in ('int', 'float', 'List[int]', 'List[float]', 'list[int]', 'list[float]'):
         return
     
     new_type = {
@@ -16,6 +16,8 @@ def convert_assignments(node: ast.AnnAssign) -> Iterable:
         'float': 'Float64',
         'List[int]': 'List[Int]',
         'List[float]': 'List[Float64]',
+        'list[int]': 'List[Int]',
+        'list[float]': 'list[Float64]',
     }[curr_type]
 
     yield (
