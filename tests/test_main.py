@@ -29,3 +29,25 @@ def test_convert_assignments():
         'x: str = "foo"',
         'x: str = "foo"',  # no changed
     )
+
+def test_convert_functiondefs():
+    _validate(
+        'def reverse(l: list[int]) -> list[int]: return reversed(l)',
+        'def reverse(l: list[Int]) -> list[int]: return reversed(l)',
+    )
+    _validate(
+        'def add(x: int, y: int) -> int: return x + y',
+        'def add(x: Int, y: Int) -> int: return x + y',
+    )
+    _validate(
+        'def concat(l1: list[int], l2: list[int]) -> int: return l1 + l2',
+        'def concat(l1: list[Int], l2: list[Int]) -> int: return l1 + l2',
+    )
+    _validate(
+        'def concat(l1: list[float], l2: list[float]) -> list[float]: return l1 + l2',
+        'def concat(l1: list[Float64], l2: list[Float64]) -> list[float]: return l1 + l2',
+    )
+    _validate(
+        'def concat(l1: list, l2: list) -> list: return l1 + l2',
+        'def concat(l1: list, l2: list) -> list: return l1 + l2',  # no changed
+    )

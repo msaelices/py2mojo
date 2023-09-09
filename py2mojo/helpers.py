@@ -26,6 +26,15 @@ def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
     return i
 
 
+def find_token_after_offset(tokens: List[Token], i: int, offset: int) -> int:
+    try:
+        while tokens[i].utf8_byte_offset < offset:
+            i += 1
+    except IndexError:
+        return -1
+    return i
+
+
 def fixup_dedent_tokens(tokens: List[Token]) -> None:
     # copied from pyupgrade
     """For whatever reason the DEDENT / UNIMPORTANT_WS tokens are misordered
