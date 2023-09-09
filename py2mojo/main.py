@@ -80,13 +80,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         help='Rewrite the file inplace',
         action='store_true',
     )
+    parser.add_argument(
+        '--extension',
+        help='File extension used for mojo file',
+        choices=['mojo', '🔥'],
+        default='🔥',
+        type=str,
+    )
     args = parser.parse_args(argv)
 
     print('Generating type annotations...')
     
 
     for filename in args.filenames:
-        mojo_filename = filename if args.inplace else f'{os.path.splitext(filename)[0]}.mojo'
+        mojo_filename = filename if args.inplace else f'{os.path.splitext(filename)[0]}.{args.extension}'
         with open(filename) as source_file:
             source = source_file.read()
 
