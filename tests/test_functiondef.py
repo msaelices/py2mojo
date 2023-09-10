@@ -39,3 +39,14 @@ def test_functiondef_with_list_types():
         'def concat(l1: list, l2: list) -> list: return l1 + l2',  # no changed
     )
 
+def test_functiondef_inside_classes():
+    validate(
+'''
+class Point:
+    def __init__(self, x: int, y: int) -> int: ...
+''',
+'''
+class Point:
+    def __init__(self, x: Int, y: Int) -> Int: ...
+''',
+    )

@@ -42,7 +42,7 @@ def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
         new_type = get_mojo_type(curr_type)
 
         if not new_type:
-            return
+            continue
 
         yield (
             ast_to_offset(arg),
