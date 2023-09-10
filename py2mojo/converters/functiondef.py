@@ -7,7 +7,7 @@ from tokenize_rt import Token
 from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_after_offset, find_token_by_name, get_mojo_type
 
 
-def _replace_annotation(tokens: list, i: int, end_offset: int, new_type: str, ann_offset: Optional[int] = None) -> None:
+def _replace_annotation(tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: Optional[int] = None) -> None:
     if ann_offset:
         ann_idx = find_token_after_offset(tokens, i, ann_offset)
     else:
