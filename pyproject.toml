@@ -52,8 +52,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.black]
 revision = "main"
-diff = true
-check = true
 isort = true
 skip_string_normalization = true
 log_level = "INFO"
