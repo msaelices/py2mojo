@@ -47,6 +47,6 @@ class Point:
 ''',
 '''
 class Point:
-    def __init__(self, x: Int, y: Int) -> Int: ...
+    def __init__(inout self, x: Int, y: Int) -> Int: ...
 ''',
     )

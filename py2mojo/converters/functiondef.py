@@ -23,6 +23,11 @@ def _replace_def_keyword(tokens: list, i: int, level: int) -> None:
     tokens[idx] = Token(name='NAME', src='fn')
 
 
+def _add_declaration(tokens: list, i: int, level: int, declaration: str) -> None:
+    tokens.insert(i, Token(name='NAME', src=declaration))
+    tokens.insert(i +1 , Token(name='UNIMPORTANT_WS', src=' '))
+
+
 def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
     """Converts the annotation of the given function definition."""
     if not node.args.args:
@@ -38,6 +43,17 @@ def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
         )
 
     for arg in node.args.args:
+        if arg.arg == 'self':
+            yield (
+                ast_to_offset(arg),
+                partial(
+                    _add_declaration,
+                    declaration='inout',
+                ),
+            )
+            continue
+            
+
         curr_type = get_annotation_type(arg.annotation)
         new_type = get_mojo_type(curr_type)
 
