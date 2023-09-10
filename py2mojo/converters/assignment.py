@@ -15,7 +15,7 @@ def _replace_assignment(tokens: List[Token], i: int, level: int, new_type: str) 
     newline_idx = find_token_by_name(tokens, type_idx, name='NEWLINE')
     valid_idxs = (idx for idx in (assign_op_idx, newline_idx) if idx >= 0)
     end_type_idx = min(valid_idxs)
-    del tokens[type_idx: end_type_idx]
+    del tokens[type_idx:end_type_idx]
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 

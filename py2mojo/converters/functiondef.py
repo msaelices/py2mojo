@@ -4,17 +4,26 @@ from typing import Iterable, Optional
 
 from tokenize_rt import Token
 
-from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_after_offset, find_token_by_name, get_mojo_type
+from ..helpers import (
+    ast_to_offset,
+    get_annotation_type,
+    find_token,
+    find_token_after_offset,
+    find_token_by_name,
+    get_mojo_type,
+)
 
 
-def _replace_annotation(tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: Optional[int] = None) -> None:
+def _replace_annotation(
+    tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: Optional[int] = None
+) -> None:
     if ann_offset:
         ann_idx = find_token_after_offset(tokens, i, ann_offset)
     else:
         ann_idx = find_token(tokens, i, ':')
     type_idx = find_token_by_name(tokens, ann_idx, name='NAME')
     end_type_idx = find_token_after_offset(tokens, ann_idx, end_offset)
-    del tokens[type_idx: end_type_idx]
+    del tokens[type_idx:end_type_idx]
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
@@ -25,7 +34,7 @@ def _replace_def_keyword(tokens: list, i: int, level: int) -> None:
 
 def _add_declaration(tokens: list, i: int, level: int, declaration: str) -> None:
     tokens.insert(i, Token(name='NAME', src=declaration))
-    tokens.insert(i +1 , Token(name='UNIMPORTANT_WS', src=' '))
+    tokens.insert(i + 1, Token(name='UNIMPORTANT_WS', src=' '))
 
 
 def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
@@ -52,7 +61,6 @@ def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
                 ),
             )
             continue
-            
 
         curr_type = get_annotation_type(arg.annotation)
         new_type = get_mojo_type(curr_type)
@@ -68,7 +76,7 @@ def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
                 new_type=new_type,
             ),
         )
-    
+
     if node.returns:
         curr_type = get_annotation_type(node.returns)
         new_type = get_mojo_type(curr_type)
