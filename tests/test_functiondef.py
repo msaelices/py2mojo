@@ -1,38 +1,46 @@
+import pytest
+
 from helpers import validate
 
-
-def test_functiondef_with_basic_types():
+# parametrize the converted types
+@pytest.mark.parametrize(
+    'python_type, mojo_type',
+    [
+        ('int', 'Int'),
+        ('float', 'Float64'),
+    ]
+)
+def test_functiondef_with_basic_types(python_type, mojo_type):
     validate(
-        'def add(x: int, y: int) -> int: return x + y',
-        'def add(x: Int, y: Int) -> Int: return x + y',
+        f'def add(x: {python_type}, y: {python_type}) -> {python_type}: return x + y',
+        f'def add(x: {mojo_type}, y: {mojo_type}) -> {mojo_type}: return x + y',
     )
     validate(
-        'def add(x: float, y: float) -> float: return x + y',
-        'def add(x: Float64, y: Float64) -> Float64: return x + y',
-    )
-    validate(
-        'def add(x: int, y: int) -> int: return x + y',
-        'fn add(x: Int, y: Int) -> Int: return x + y',
+        f'def add(x: {python_type}, y: {python_type}) -> {python_type}: return x + y',
+        f'fn add(x: {mojo_type}, y: {mojo_type}) -> {mojo_type}: return x + y',
         level=1,
     )
 
 
-def test_functiondef_with_list_types():
+@pytest.mark.parametrize(
+    'python_type, mojo_type',
+    [
+        ('int', 'Int'),
+        ('float', 'Float64'),
+    ]
+)
+def test_functiondef_with_list_types(python_type, mojo_type):
     validate(
-        'def flatten(l1: list[list[int]]) -> list[int]: ...',
-        'def flatten(l1: list[list[Int]]) -> list[Int]: ...',
+        f'def flatten(l1: list[list[{python_type}]]) -> list[{python_type}]: ...',
+        f'def flatten(l1: list[list[{mojo_type}]]) -> list[{mojo_type}]: ...',
     )
     validate(
-        'def reverse(l: list[int]) -> list[int]: return reversed(l)',
-        'def reverse(l: list[Int]) -> list[Int]: return reversed(l)',
+        f'def reverse(l: list[{python_type}]) -> list[{python_type}]: return reversed(l)',
+        f'def reverse(l: list[{mojo_type}]) -> list[{mojo_type}]: return reversed(l)',
     )
     validate(
-        'def concat(l1: list[int], l2: list[int]) -> int: return l1 + l2',
-        'def concat(l1: list[Int], l2: list[Int]) -> Int: return l1 + l2',
-    )
-    validate(
-        'def concat(l1: list[float], l2: list[float]) -> list[float]: return l1 + l2',
-        'def concat(l1: list[Float64], l2: list[Float64]) -> list[Float64]: return l1 + l2',
+        f'def concat(l1: list[{python_type}], l2: list[{python_type}]) -> {python_type}: return l1 + l2',
+        f'def concat(l1: list[{mojo_type}], l2: list[{mojo_type}]) -> {mojo_type}: return l1 + l2',
     )
     validate(
         'def concat(l1: list, l2: list) -> list: return l1 + l2',
