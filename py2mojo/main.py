@@ -10,7 +10,7 @@ from typing import Callable, List, Sequence
 
 from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
-from .converters import convert_assignment, convert_functiondef
+from .converters import convert_assignment, convert_functiondef, convert_classdef
 from .helpers import fixup_dedent_tokens
 
 
@@ -19,6 +19,9 @@ TokenFunc = Callable[[List[Token], int], None]
 
 def get_converters(klass: type) -> list[TokenFunc]:
     return {
+        ast.ClassDef: [
+            convert_classdef,
+        ],
         ast.AnnAssign: [
             convert_assignment,
         ],
