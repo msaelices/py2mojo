@@ -28,14 +28,14 @@ def get_converters(klass: type) -> list[TokenFunc]:
     }.get(klass, [])
 
 
-def visit(tree: ast.Module) -> list[TokenFunc]:
+def visit(tree: ast.Module, level: int) -> list[TokenFunc]:
     nodes = [tree]
     ret = defaultdict(list)
     while nodes:
         node = nodes.pop()
 
-        for annotator in get_converters(type(node)):
-            for offset, token_func in annotator(node):
+        for converter in get_converters(type(node)):
+            for offset, token_func in converter(node, level):
                 ret[offset].append(token_func)
 
         for name in reversed(node._fields):
@@ -53,7 +53,7 @@ def visit(tree: ast.Module) -> list[TokenFunc]:
 def convert_to_mojo(source: str, level: int) -> str:
     tree = ast.parse(source)
 
-    callbacks = visit(tree)
+    callbacks = visit(tree, level)
 
     if not callbacks:
         return source

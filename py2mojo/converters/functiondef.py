@@ -18,10 +18,24 @@ def _replace_annotation(tokens: list, i: int, level: int, end_offset: int, new_t
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
-def convert_functiondef(node: ast.FunctionDef) -> Iterable:
+def _replace_def_keyword(tokens: list, i: int, level: int) -> None:
+    idx = find_token(tokens, i, 'def')
+    tokens[idx] = Token(name='NAME', src='fn')
+
+
+def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
     """Converts the annotation of the given function definition."""
     if not node.args.args:
         return
+
+    if level > 0:
+        offset = ast_to_offset(node)
+        yield (
+            offset,
+            partial(
+                _replace_def_keyword,
+            ),
+        )
 
     for arg in node.args.args:
         curr_type = get_annotation_type(arg.annotation)

@@ -19,7 +19,7 @@ def _replace_assignment(tokens: List[Token], i: int, level: int, new_type: str) 
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
-def convert_assignment(node: ast.AnnAssign) -> Iterable:
+def convert_assignment(node: ast.AnnAssign, level: int = 0) -> Iterable:
     """Convert an assignment to a mojo assignment."""
     curr_type = get_annotation_type(node.annotation)
     new_type = get_mojo_type(curr_type)

@@ -10,6 +10,11 @@ def test_functiondef_with_basic_types():
         'def add(x: float, y: float) -> float: return x + y',
         'def add(x: Float64, y: Float64) -> Float64: return x + y',
     )
+    validate(
+        'def add(x: int, y: int) -> int: return x + y',
+        'fn add(x: Int, y: Int) -> Int: return x + y',
+        level=1,
+    )
 
 
 def test_functiondef_with_list_types():
