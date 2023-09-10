@@ -85,7 +85,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         '--extension',
-        help='File extension used for mojo file',
+        help='File extension of the generated files',
         choices=['mojo', '🔥'],
         default='🔥',
         type=str,

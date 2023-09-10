@@ -24,7 +24,7 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --inplace             Rewrite the file inplace
-  --extension {mojo,🔥}  File extension used for mojo file
+  --extension {mojo,🔥}  File extension of the generated files
 ```
 
 Examples:
