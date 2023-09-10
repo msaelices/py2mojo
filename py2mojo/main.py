@@ -6,7 +6,7 @@ import os
 import sys
 import tokenize
 from collections import defaultdict
-from typing import Callable, List, Sequence
+from typing import Callable, Sequence
 
 from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
@@ -14,7 +14,7 @@ from .converters import convert_assignment, convert_functiondef, convert_classde
 from .helpers import fixup_dedent_tokens
 
 
-TokenFunc = Callable[[List[Token], int], None]
+TokenFunc = Callable[[list[Token], int], None]
 
 
 def get_converters(klass: type) -> list[TokenFunc]:

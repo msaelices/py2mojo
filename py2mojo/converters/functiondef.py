@@ -1,6 +1,6 @@
 import ast
 from functools import partial
-from typing import Iterable, Optional
+from typing import Iterable
 
 from tokenize_rt import Token
 
@@ -15,7 +15,7 @@ from ..helpers import (
 
 
 def _replace_annotation(
-    tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: Optional[int] = None
+    tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: int | None = None
 ) -> None:
     if ann_offset:
         ann_idx = find_token_after_offset(tokens, i, ann_offset)

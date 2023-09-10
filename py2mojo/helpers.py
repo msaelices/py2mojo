@@ -1,15 +1,14 @@
 import ast
 import re
-from typing import List, Union
 
 from tokenize_rt import UNIMPORTANT_WS, Offset, Token
 
 
-def ast_to_offset(node: Union[ast.expr, ast.stmt]) -> Offset:
+def ast_to_offset(node: ast.expr | ast.stmt) -> Offset:
     return Offset(node.lineno, node.col_offset)
 
 
-def find_token(tokens: List[Token], i: int, src: str) -> int:
+def find_token(tokens: list[Token], i: int, src: str) -> int:
     """Find the index of the token with the given src."""
     try:
         while tokens[i].src != src:
@@ -19,7 +18,7 @@ def find_token(tokens: List[Token], i: int, src: str) -> int:
     return i
 
 
-def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
+def find_token_by_name(tokens: list[Token], i: int, name: str) -> int:
     """Find the index of the token with the given name."""
     try:
         while tokens[i].name != name:
@@ -29,7 +28,7 @@ def find_token_by_name(tokens: List[Token], i: int, name: str) -> int:
     return i
 
 
-def find_token_after_offset(tokens: List[Token], i: int, offset: int) -> int:
+def find_token_after_offset(tokens: list[Token], i: int, offset: int) -> int:
     """Find the index of the token after the given offset."""
     try:
         while tokens[i].utf8_byte_offset < offset:
@@ -39,7 +38,7 @@ def find_token_after_offset(tokens: List[Token], i: int, offset: int) -> int:
     return i
 
 
-def fixup_dedent_tokens(tokens: List[Token]) -> None:
+def fixup_dedent_tokens(tokens: list[Token]) -> None:
     # copied from pyupgrade
     """For whatever reason the DEDENT / UNIMPORTANT_WS tokens are misordered
     | if True:

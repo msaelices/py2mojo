@@ -1,13 +1,13 @@
 import ast
 from functools import partial
-from typing import Iterable, List
+from typing import Iterable
 
 from tokenize_rt import Token
 
 from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_by_name, get_mojo_type
 
 
-def _replace_assignment(tokens: List[Token], i: int, level: int, new_type: str) -> None:
+def _replace_assignment(tokens: list[Token], i: int, level: int, new_type: str) -> None:
     tokens.insert(i, Token(name='NAME', src='var '))
     ann_idx = find_token(tokens, i, ':')
     type_idx = find_token_by_name(tokens, ann_idx, name='NAME')
