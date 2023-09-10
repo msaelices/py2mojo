@@ -37,6 +37,12 @@ Examples:
 ❯ py2mojo mypackage/*.py
 ```
 
+## ⚠ Disclaimer
+
+Please be aware that the Mojo programming language is still in its nascent stages of development. As with any young language, there might be frequent updates, changes, and unforeseen quirks in its syntax and behavior. There will probably be instances where the conversion might not work and may require manual adjustments.
+
+So, consider this tool as experimental. Please do not trust the generated code and double-check it.
+
 ## Implementation details
 
 This uses a similar approach to the [pyupgrade](https://github.com/asottile/pyupgrade) tool, using the AST parser to analyze the Python code and replace some parts of it with the equivalent Mojo code.
