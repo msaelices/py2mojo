@@ -49,3 +49,12 @@ dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.black]
+revision = "main"
+diff = true
+check = true
+isort = true
+skip_string_normalization = true
+log_level = "INFO"
+line_length = 120
