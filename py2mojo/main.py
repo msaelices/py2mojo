@@ -12,6 +12,7 @@ from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
 from .converters import convert_assignment, convert_functiondef, convert_classdef
 from .helpers import fixup_dedent_tokens
+from .rules import get_rules, RuleSet
 
 
 TokenFunc = Callable[[list[Token], int], None]
@@ -31,14 +32,14 @@ def get_converters(klass: type) -> list[TokenFunc]:
     }.get(klass, [])
 
 
-def visit(tree: ast.Module, level: int) -> list[TokenFunc]:
+def visit(tree: ast.Module, rules: RuleSet) -> list[TokenFunc]:
     nodes = [tree]
     ret = defaultdict(list)
     while nodes:
         node = nodes.pop()
 
         for converter in get_converters(type(node)):
-            for offset, token_func in converter(node, level):
+            for offset, token_func in converter(node, rules):
                 ret[offset].append(token_func)
 
         for name in reversed(node._fields):
@@ -53,10 +54,10 @@ def visit(tree: ast.Module, level: int) -> list[TokenFunc]:
     return ret
 
 
-def convert_to_mojo(source: str, level: int) -> str:
+def convert_to_mojo(source: str, rules: RuleSet) -> str:
     tree = ast.parse(source)
 
-    callbacks = visit(tree, level)
+    callbacks = visit(tree, rules)
 
     if not callbacks:
         return source
@@ -73,7 +74,7 @@ def convert_to_mojo(source: str, level: int) -> str:
             continue
 
         for callback in callbacks.get(token.offset, ()):
-            callback(tokens, i, level)
+            callback(tokens, i, rules)
 
     return tokens_to_src(tokens)
 
@@ -95,10 +96,20 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         '--mode',
-        help='Level of how aggressive is the conversion',
+        help='Level of how aggressive is the conversion. Agressive means that all the conversions are enabled',
         choices=['conservative', 'aggressive'],
         default='aggressive',
         type=str,
+    )
+    parser.add_argument(
+        '--convert-def-to-fn',
+        default=True,
+        action=argparse.BooleanOptionalAction,
+    )
+    parser.add_argument(
+        '--convert-class-to-struct',
+        default=True,
+        action=argparse.BooleanOptionalAction,
     )
     args = parser.parse_args(argv)
 
@@ -107,9 +118,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         with open(filename) as source_file:
             source = source_file.read()
 
-            level = 0 if args.mode == 'conservative' else 1
+            rules = get_rules(args)
 
-            annotated_source = convert_to_mojo(source, level)
+            annotated_source = convert_to_mojo(source, rules)
 
             if source != annotated_source:
                 print(f'Rewriting {filename}' if args.inplace else f'Rewriting {filename} into {mojo_filename}')

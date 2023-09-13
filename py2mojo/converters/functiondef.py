@@ -12,10 +12,11 @@ from ..helpers import (
     find_token_by_name,
     get_mojo_type,
 )
+from ..rules import RuleSet
 
 
 def _replace_annotation(
-    tokens: list, i: int, level: int, end_offset: int, new_type: str, ann_offset: int | None = None
+    tokens: list, i: int, rules: RuleSet, end_offset: int, new_type: str, ann_offset: int | None = None
 ) -> None:
     if ann_offset:
         ann_idx = find_token_after_offset(tokens, i, ann_offset)
@@ -27,19 +28,19 @@ def _replace_annotation(
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
-def _replace_def_keyword(tokens: list, i: int, level: int) -> None:
+def _replace_def_keyword(tokens: list, i: int, rules: RuleSet) -> None:
     idx = find_token(tokens, i, 'def')
     tokens[idx] = Token(name='NAME', src='fn')
 
 
-def _add_declaration(tokens: list, i: int, level: int, declaration: str) -> None:
+def _add_declaration(tokens: list, i: int, rules: RuleSet, declaration: str) -> None:
     tokens.insert(i, Token(name='NAME', src=declaration))
     tokens.insert(i + 1, Token(name='UNIMPORTANT_WS', src=' '))
 
 
-def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
+def convert_functiondef(node: ast.FunctionDef, rules: RuleSet = 0) -> Iterable:
     """Converts the annotation of the given function definition."""
-    if level > 0:
+    if rules.convert_def_to_fn > 0:
         offset = ast_to_offset(node)
         yield (
             offset,

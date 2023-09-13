@@ -1,4 +1,5 @@
 from helpers import validate
+from py2mojo.rules import RuleSet
 
 
 def test_classdef():
@@ -9,5 +10,5 @@ def test_classdef():
     validate(
         'class Foo(Bar): pass',
         'struct Foo(Bar): pass',
-        level=1
+        rules=RuleSet(convert_class_to_struct=True),
     )
