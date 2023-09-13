@@ -94,11 +94,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         type=str,
     )
     parser.add_argument(
-        '--level',
-        help='Level of how aggressive is the conversion, 0 means conservative, 1 means aggressive (so prone to errors)',
-        choices=[0, 1],
-        default=0,
-        type=int,
+        '--mode',
+        help='Level of how aggressive is the conversion',
+        choices=['conservative', 'aggressive'],
+        default='conservative',
+        type=str,
     )
     args = parser.parse_args(argv)
 
@@ -107,7 +107,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         with open(filename) as source_file:
             source = source_file.read()
 
-            annotated_source = convert_to_mojo(source, args.level)
+            level = 0 if args.mode == 'conservative' else 1
+
+            annotated_source = convert_to_mojo(source, level)
 
             if source != annotated_source:
                 print(f'Rewriting {filename}' if args.inplace else f'Rewriting {filename} into {mojo_filename}')
