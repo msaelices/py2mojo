@@ -97,7 +97,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         '--mode',
         help='Level of how aggressive is the conversion',
         choices=['conservative', 'aggressive'],
-        default='conservative',
+        default='aggressive',
         type=str,
     )
     args = parser.parse_args(argv)
