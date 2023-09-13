@@ -16,7 +16,7 @@ You can read the usage by running `py2mojo --help`:
 
 ```bash
 ❯ py2mojo --help
-usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] [--level {0,1}] filenames [filenames ...]
+usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] [--convert-def-to-fn | --no-convert-def-to-fn] [--convert-class-to-struct | --no-convert-class-to-struct] filenames [filenames ...]
 
 positional arguments:
   filenames
@@ -25,7 +25,8 @@ options:
   -h, --help            show this help message and exit
   --inplace             Rewrite the file inplace
   --extension {mojo,🔥}  File extension of the generated files
-  --mode {conservative,aggressive}  Level of how aggressive is the conversion, 0 means conservative, 1 means aggressive (so prone to errors)
+  --convert-def-to-fn, --no-convert-def-to-fn
+  --convert-class-to-struct, --no-convert-class-to-struct
 ```
 
 Examples:

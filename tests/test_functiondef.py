@@ -1,6 +1,7 @@
 import pytest
 
 from helpers import validate
+from py2mojo.rules import RuleSet
 
 
 def test_functiondef_with_no_params():
@@ -11,7 +12,7 @@ def test_functiondef_with_no_params():
     validate(
         'def main(): print("Hello world!")',
         'fn main(): print("Hello world!")',
-        level=1,
+        rules=RuleSet(convert_def_to_fn=True),
     )
 
 
@@ -30,7 +31,7 @@ def test_functiondef_with_basic_types(python_type, mojo_type):
     validate(
         f'def add(x: {python_type}, y: {python_type}) -> {python_type}: return x + y',
         f'fn add(x: {mojo_type}, y: {mojo_type}) -> {mojo_type}: return x + y',
-        level=1,
+        rules=RuleSet(convert_def_to_fn=True),
     )
 
 
