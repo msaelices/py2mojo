@@ -2,13 +2,25 @@ import pytest
 
 from helpers import validate
 
-# parametrize the converted types
+
+def test_functiondef_with_no_params():
+    validate(
+        'def main(): print("Hello world!")',
+        'def main(): print("Hello world!")',
+    )
+    validate(
+        'def main(): print("Hello world!")',
+        'fn main(): print("Hello world!")',
+        level=1,
+    )
+
+
 @pytest.mark.parametrize(
     'python_type, mojo_type',
     [
         ('int', 'Int'),
         ('float', 'Float64'),
-    ]
+    ],
 )
 def test_functiondef_with_basic_types(python_type, mojo_type):
     validate(
@@ -27,7 +39,7 @@ def test_functiondef_with_basic_types(python_type, mojo_type):
     [
         ('int', 'Int'),
         ('float', 'Float64'),
-    ]
+    ],
 )
 def test_functiondef_with_list_types(python_type, mojo_type):
     validate(
@@ -47,13 +59,14 @@ def test_functiondef_with_list_types(python_type, mojo_type):
         'def concat(l1: list, l2: list) -> list: return l1 + l2',  # no changed
     )
 
+
 def test_functiondef_inside_classes():
     validate(
-'''
+        '''
 class Point:
     def __init__(self, x: int, y: int) -> int: ...
 ''',
-'''
+        '''
 class Point:
     def __init__(inout self, x: Int, y: Int) -> Int: ...
 ''',

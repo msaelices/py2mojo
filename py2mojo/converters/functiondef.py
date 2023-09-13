@@ -39,9 +39,6 @@ def _add_declaration(tokens: list, i: int, level: int, declaration: str) -> None
 
 def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
     """Converts the annotation of the given function definition."""
-    if not node.args.args:
-        return
-
     if level > 0:
         offset = ast_to_offset(node)
         yield (
@@ -50,6 +47,9 @@ def convert_functiondef(node: ast.FunctionDef, level: int = 0) -> Iterable:
                 _replace_def_keyword,
             ),
         )
+
+    if not node.args.args:
+        return
 
     for arg in node.args.args:
         if arg.arg == 'self':
