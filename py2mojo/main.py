@@ -95,13 +95,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         type=str,
     )
     parser.add_argument(
-        '--mode',
-        help='Level of how aggressive is the conversion. Agressive means that all the conversions are enabled',
-        choices=['conservative', 'aggressive'],
-        default='aggressive',
-        type=str,
-    )
-    parser.add_argument(
         '--convert-def-to-fn',
         default=True,
         action=argparse.BooleanOptionalAction,
