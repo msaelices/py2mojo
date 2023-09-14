@@ -66,7 +66,7 @@ def convert_functiondef(node: ast.FunctionDef, rules: RuleSet = 0) -> Iterable:
 
         if rules.convert_def_to_fn and not arg.annotation:
             raise ParseException(
-                node, 'For converting a def function to fn, the declaration needs to be fully type annotated'
+                node, 'For converting a "def" function to "fn", the declaration needs to be fully type annotated'
             )
         curr_type = get_annotation_type(arg.annotation)
         new_type = get_mojo_type(curr_type)
