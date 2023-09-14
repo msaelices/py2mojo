@@ -1,6 +1,9 @@
 import ast
 import re
 
+import astor
+from rich import print
+from rich.text import Text
 from tokenize_rt import UNIMPORTANT_WS, Offset, Token
 
 
@@ -115,3 +118,29 @@ def get_mojo_type(curr_type: str) -> str:
             curr_type = pattern.sub(replacement, curr_type)
 
     return curr_type
+
+
+def highlight_code_at_position(code: str, line: int, column: int, end_column: int) -> Text:
+    lines = code.splitlines()
+    highlighted = Text()
+
+    for idx, source_line in enumerate(lines):
+        if idx + 1 == line:
+            # Highlight the specific column in the given line
+            highlighted.append(source_line[:column], style='white')
+            for i in range(column, min(end_column, len(source_line))):
+                highlighted.append(source_line[i], style='bold black on yellow')
+            highlighted.append(source_line[end_column + 1 :], style='white')
+        else:
+            highlighted.append(source_line, style='white')
+        highlighted.append('\n')
+
+    return highlighted
+
+
+def display_error(node: ast.AST, message: str):
+    src = astor.to_source(node)
+
+    highlighted_src = highlight_code_at_position(src, 1, node.col_offset, node.end_col_offset)
+    print('[bold red]Error:[/bold red]', message)
+    print(highlighted_src)

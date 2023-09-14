@@ -11,7 +11,8 @@ from typing import Callable, Sequence
 from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
 
 from .converters import convert_assignment, convert_functiondef, convert_classdef
-from .helpers import fixup_dedent_tokens
+from .exceptions import ParseException
+from .helpers import display_error, fixup_dedent_tokens
 from .rules import get_rules, RuleSet
 
 
@@ -113,7 +114,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
             rules = get_rules(args)
 
-            annotated_source = convert_to_mojo(source, rules)
+            try:
+                annotated_source = convert_to_mojo(source, rules)
+            except ParseException as exc:
+                display_error(exc.node, exc.msg)
+                sys.exit(1)
 
             if source != annotated_source:
                 print(f'Rewriting {filename}' if args.inplace else f'Rewriting {filename} into {mojo_filename}')
