@@ -1,6 +1,7 @@
 import pytest
 
 from helpers import validate
+from py2mojo.exceptions import ParseException
 from py2mojo.rules import RuleSet
 
 
@@ -72,3 +73,16 @@ class Point:
     def __init__(inout self, x: Int, y: Int) -> Int: ...
 ''',
     )
+
+
+def test_functiondef_non_fully_annotated_functions():
+    validate(
+        '''def add(x, y): return x + y''',
+        '''def add(x, y): return x + y''',
+    )
+    with pytest.raises(ParseException):
+        validate(
+            '''def add(x, y): return x + y''',
+            '''def add(x, y): return x + y''',
+            rules=RuleSet(convert_def_to_fn=True),
+        )
