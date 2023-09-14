@@ -142,5 +142,5 @@ def display_error(node: ast.AST, message: str):
     src = astor.to_source(node)
 
     highlighted_src = highlight_code_at_position(src, 1, node.col_offset, node.end_col_offset)
-    print('[bold red]Error:[/bold red]', message)
-    print(highlighted_src)
+    print('\n[bold red]Error:[/bold red]', message)
+    print('[light_salmon3]Source[/light_salmon3]:\n', highlighted_src)
