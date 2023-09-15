@@ -17,7 +17,7 @@ def test_classdef():
     )
 
 
-def test_classdef_non_fully_annotated_functions():
+def test_classdef_non_fully_annotated_classes():
     validate(
         '''class Number: number = 10''',
         '''class Number: number = 10''',
