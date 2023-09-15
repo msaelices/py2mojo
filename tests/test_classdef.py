@@ -15,6 +15,11 @@ def test_classdef():
         'struct Foo(Bar): pass',
         rules=RuleSet(convert_class_to_struct=True),
     )
+    validate(
+        'class Foo(Bar): n: int = 10',
+        'struct Foo(Bar): var n: Int = 10',
+        rules=RuleSet(convert_class_to_struct=True),
+    )
 
 
 def test_classdef_non_fully_annotated_classes():
