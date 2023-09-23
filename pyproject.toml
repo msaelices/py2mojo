@@ -1,13 +1,13 @@
 [project]
 name = "py2mojo"
 
-version = "0.0.1"
+version = "0.0.2"
 
 description = "Automated Python to Mojo code translation"
 
 readme = "README.md"
 
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 license = {file = "LICENSE"}
 
