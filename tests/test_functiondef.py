@@ -62,6 +62,14 @@ def test_functiondef_with_list_types(python_type, mojo_type):
     )
 
 
+def test_functiondef_with_float_in_precision():
+    validate(
+        'def add(x: float, y: float) -> float: return x + y',
+        'fn add(x: Float32, y: Float32) -> Float32: return x + y',
+        rules=RuleSet(convert_def_to_fn=True, float_precision=32),
+    )
+
+
 def test_functiondef_inside_classes():
     validate(
         '''

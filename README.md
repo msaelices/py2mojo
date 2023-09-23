@@ -16,7 +16,8 @@ You can read the usage by running `py2mojo --help`:
 
 ```bash
 ❯ py2mojo --help
-usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] [--convert-def-to-fn | --no-convert-def-to-fn] [--convert-class-to-struct | --no-convert-class-to-struct] filenames [filenames ...]
+usage: py2mojo [-h] [--inplace] [--extension {mojo,🔥}] [--convert-def-to-fn | --no-convert-def-to-fn] [--convert-class-to-struct | --no-convert-class-to-struct] [--float-precision {32,64}]
+               filenames [filenames ...]
 
 positional arguments:
   filenames
@@ -27,6 +28,7 @@ options:
   --extension {mojo,🔥}  File extension of the generated files
   --convert-def-to-fn, --no-convert-def-to-fn
   --convert-class-to-struct, --no-convert-class-to-struct
+  --float-precision {32,64}
 ```
 
 Examples:

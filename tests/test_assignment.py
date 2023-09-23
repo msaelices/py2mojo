@@ -1,4 +1,5 @@
 from helpers import validate
+from py2mojo.rules import RuleSet
 
 
 def test_assignment_with_basic_types():
@@ -9,6 +10,11 @@ def test_assignment_with_basic_types():
     validate(
         'x: float = 10.5',
         'var x: Float64 = 10.5',
+    )
+    validate(
+        'x: float = 10.5',
+        'var x: Float32 = 10.5',
+        rules=RuleSet(float_precision=32),
     )
     validate(
         'x: str = "foo"',

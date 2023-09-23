@@ -105,6 +105,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         default=True,
         action=argparse.BooleanOptionalAction,
     )
+    parser.add_argument(
+        '--float-precision',
+        default=32,
+        type=int,
+        choices=[32, 64],
+    )
     args = parser.parse_args(argv)
 
     for filename in args.filenames:

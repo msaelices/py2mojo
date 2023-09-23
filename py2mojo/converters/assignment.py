@@ -23,7 +23,7 @@ def _replace_assignment(tokens: list[Token], i: int, rules: RuleSet, new_type: s
 def convert_assignment(node: ast.AnnAssign, rules: RuleSet) -> Iterable:
     """Convert an assignment to a mojo assignment."""
     curr_type = get_annotation_type(node.annotation)
-    new_type = get_mojo_type(curr_type)
+    new_type = get_mojo_type(curr_type, rules)
     if not new_type:
         return
 

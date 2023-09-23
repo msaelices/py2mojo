@@ -6,6 +6,8 @@ from rich import print
 from rich.text import Text
 from tokenize_rt import UNIMPORTANT_WS, Offset, Token
 
+from .rules import RuleSet
+
 
 def ast_to_offset(node: ast.expr | ast.stmt) -> Offset:
     return Offset(node.lineno, node.col_offset)
@@ -103,11 +105,11 @@ def get_annotation_type(node: ast.AST) -> str:
     return curr_type
 
 
-def get_mojo_type(curr_type: str) -> str:
+def get_mojo_type(curr_type: str, rules: RuleSet) -> str:
     """Returns the corresponding Mojo type for the given Python type."""
     patterns = [
         (re.compile(r'int'), 'Int'),
-        (re.compile(r'float'), 'Float64'),
+        (re.compile(r'float'), f'Float{rules.float_precision}'),
     ]
 
     prev_type = ''
