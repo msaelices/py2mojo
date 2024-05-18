@@ -1,8 +1,8 @@
 import ast
 from functools import partial
-from typing import Iterable
+from typing import Callable, Iterable
 
-from tokenize_rt import Token
+from tokenize_rt import Offset, Token
 
 from ..helpers import ast_to_offset, get_annotation_type, find_token, find_token_by_name, get_mojo_type
 from ..rules import RuleSet
@@ -20,7 +20,7 @@ def _replace_assignment(tokens: list[Token], i: int, rules: RuleSet, new_type: s
     tokens.insert(type_idx, Token(name='NAME', src=new_type))
 
 
-def convert_assignment(node: ast.AnnAssign, rules: RuleSet) -> Iterable:
+def convert_assignment(node: ast.AnnAssign, rules: RuleSet) -> Iterable[tuple[Offset, Callable]]:
     """Convert an assignment to a mojo assignment."""
     curr_type = get_annotation_type(node.annotation)
     new_type = get_mojo_type(curr_type, rules)

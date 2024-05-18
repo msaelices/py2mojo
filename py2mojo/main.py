@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import argparse
 import ast
+from collections.abc import Iterable
 import os
 import sys
 import tokenize
 from collections import defaultdict
-from typing import Callable, Sequence
+from typing import Callable, Sequence, TypeAlias
 
-from tokenize_rt import Token, reversed_enumerate, src_to_tokens, tokens_to_src
+from tokenize_rt import Offset, reversed_enumerate, src_to_tokens, tokens_to_src
 
 from .converters import convert_assignment, convert_functiondef, convert_classdef
 from .exceptions import ParseException
@@ -16,7 +17,7 @@ from .helpers import display_error, fixup_dedent_tokens
 from .rules import get_rules, RuleSet
 
 
-TokenFunc = Callable[[list[Token], int], None]
+TokenFunc: TypeAlias = Callable[[ast.AST, RuleSet], Iterable[tuple[Offset, Callable]]]
 
 
 def get_converters(klass: type) -> list[TokenFunc]:
@@ -33,7 +34,7 @@ def get_converters(klass: type) -> list[TokenFunc]:
     }.get(klass, [])
 
 
-def visit(tree: ast.Module, rules: RuleSet) -> list[TokenFunc]:
+def visit(tree: ast.Module, rules: RuleSet) -> dict[Offset, TokenFunc]:
     nodes = [tree]
     ret = defaultdict(list)
     while nodes:
