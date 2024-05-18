@@ -46,19 +46,19 @@ def test_functiondef_with_basic_types(python_type, mojo_type):
 def test_functiondef_with_list_types(python_type, mojo_type):
     validate(
         f'def flatten(l1: list[list[{python_type}]]) -> list[{python_type}]: ...',
-        f'def flatten(l1: list[list[{mojo_type}]]) -> list[{mojo_type}]: ...',
+        f'def flatten(l1: List[List[{mojo_type}]]) -> List[{mojo_type}]: ...',
     )
     validate(
         f'def reverse(l: list[{python_type}]) -> list[{python_type}]: return reversed(l)',
-        f'def reverse(l: list[{mojo_type}]) -> list[{mojo_type}]: return reversed(l)',
+        f'def reverse(l: List[{mojo_type}]) -> List[{mojo_type}]: return reversed(l)',
     )
     validate(
         f'def concat(l1: list[{python_type}], l2: list[{python_type}]) -> {python_type}: return l1 + l2',
-        f'def concat(l1: list[{mojo_type}], l2: list[{mojo_type}]) -> {mojo_type}: return l1 + l2',
+        f'def concat(l1: List[{mojo_type}], l2: List[{mojo_type}]) -> {mojo_type}: return l1 + l2',
     )
     validate(
         'def concat(l1: list, l2: list) -> list: return l1 + l2',
-        'def concat(l1: list, l2: list) -> list: return l1 + l2',  # no changed
+        'def concat(l1: List, l2: List) -> List: return l1 + l2',  # no changed
     )
 
 

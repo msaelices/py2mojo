@@ -110,6 +110,9 @@ def get_mojo_type(curr_type: str, rules: RuleSet) -> str:
     patterns = [
         (re.compile(r'int'), 'Int'),
         (re.compile(r'float'), f'Float{rules.float_precision}'),
+        (re.compile(r'str'), 'String'),
+        (re.compile(r'list'), 'List'),
+        (re.compile(r'dict'), 'Dict'),
     ]
 
     prev_type = ''

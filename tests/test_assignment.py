@@ -18,7 +18,7 @@ def test_assignment_with_basic_types():
     )
     validate(
         'x: str = "foo"',
-        'var x: str = "foo"',
+        'var x: String = "foo"',
     )
     validate(
         'x: int',
@@ -28,18 +28,22 @@ def test_assignment_with_basic_types():
         '"""docstring"""\nx: int',
         '"""docstring"""\nvar x: Int',
     )
+    validate(
+        'd: dict = {}',
+        'var d: Dict = {}',
+    )
 
 
 def test_assignment_with_list_types():
     validate(
-        'x: List[int] = []',
+        'x: list[int] = []',
         'var x: List[Int] = []',
     )
     validate(
         'x: list[float] = []',
-        'var x: list[Float64] = []',
+        'var x: List[Float64] = []',
     )
     validate(
         'x: list = []',
-        'var x: list = []',
+        'var x: List = []',
     )
